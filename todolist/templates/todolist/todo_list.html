@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="row mt-4">
+	<span class="h1">Список всех дел</span>
+	<table>
+		<th>Дело</th>		
+		<th>Подробности</th>		
+		<th>Итог дела</th>
+		{% for todo in todos %}
+		<tr>
+			<td>
+				<a href="{% url 'todo_details' todo.id %}">
+				{{todo.title}}
+				</a>
+			</td>	
+			<td>{{todo.description|truncatewords:4}}</td>
+			<td>{{todo.completed}}</td>
+		</tr>
+		{% endfor %}	
+	</table>
+</div>
+{% endblock content %}

@@ -1,0 +1,13 @@
+{% extends 'main.html' %}
+{% block content %}
+	<div class="row mt-4" >
+	<h1>
+		Подробности	
+	</h1>
+	<h2> {{todo.title}} </h2>
+	<p>{{todo.description}}</p>
+	<a href="{% url 'todo_list' %}">
+		<button type="button" class="btn btn-primary">Таблица всех дел</button>
+	</a>
+</div>
+{% endblock content %}
