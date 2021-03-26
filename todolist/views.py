@@ -14,6 +14,14 @@ def todo_details(request, todo_id):
 	context = {'todo':todo}
 	return render(request, 'todolist/todo_details.html', context)
 
+def searching_todo(request):
+	if 'q' in request.GET:
+		q = request.GET['q']
+		todos2 = TodoItem.objects.filter(title__icontains = q)
+	else:
+		todos2 = TodoItem.objects.all()
+	context = {'todos2': todos2}
+	# return render(request, '', context)
 
 def create_todo(request):
 	form = TodoItemForm(request.POST or None)
