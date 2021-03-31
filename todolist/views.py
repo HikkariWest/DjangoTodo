@@ -1,11 +1,17 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 # from django.http import HttpResponse
 from .models import TodoItem
-from .forms import TodoItemForm
+from .forms import TodoItemForm, SearchForm
 # Create your views here.
 
 def todo_list(request):
-	todos = TodoItem.objects.all()
+	search_request = request.GET.get('q')
+	if search_request:
+		print(search_request)
+		todos = TodoItem.objects.filter(title__istartswith = search_request)
+		context = {'todos':todos}
+	else:
+		todos = TodoItem.objects.all()
 	context = {'todos':todos}
 	return render(request, 'todolist/todo_list.html', context)
 
@@ -20,8 +26,9 @@ def searching_todo(request):
 		todos2 = TodoItem.objects.filter(title__icontains = q)
 	else:
 		todos2 = TodoItem.objects.all()
-	context = {'todos2': todos2}
+	# context = {'todos2': todos2}
 	# return render(request, '', context)
+
 
 def create_todo(request):
 	form = TodoItemForm(request.POST or None)
@@ -34,7 +41,7 @@ def create_todo(request):
 
 
 def update_todo(request, todo_id):
-	todo = get_object_or_404(Post, id = todo_id)
+	todo = get_object_or_404(TodoItem, id = todo_id)
 	form = TodoItemForm(request.POST or None, instance = todo)
 	if request.method == 'POST':
 		form = TodoItemForm(request.POST, instance = todo)
