@@ -1,0 +1,48 @@
+{% extends 'main.html' %}
+{% block content %}
+<script>
+	searchTodos = (e) =>{
+		e.preventDefault();
+		alert(document.querySelector('.search-term').value);
+		var url = new URL('http://localhost:8000/todo/')
+		let params = {search: s};
+		url.search = new URLSearchParams(params).toString();
+		let request = fetch(
+			url,
+			{
+			method: 'GET',
+			headers: {
+				'Content-type':'application/json'
+			}
+		}).then(response => console.log(response.json()))
+	}
+</script>
+<div class="row mt-4 ">
+	<div class = "bs-callout">
+		<span class="h1">Список всех дел</span>
+		<p>Здесь вы можете видеть список запланированных дел</p>
+		<div class="col-sm-8">
+			<form action="." method="GET" on submit = "searchTodos(event)">
+				<input type="text" placeholder="Введите текст" name="search" value="{{search}}" class="search">
+				<input type="submit" value = "Search">
+			</form>
+		</div>
+		<table class="table table-bordered border-primary">
+			<th>Дело</th>		
+			<th>Подробности</th>		
+			<th>Итог дела</th>
+			{% for todo in todos %}
+					<tr>
+						<td>
+							<a href="{% url 'todo_details' todo.uu_id %}">
+							{{todo.title}}
+							</a>
+						</td>	
+						<td>{{todo.description|truncatewords:4}}</td>
+						<td>{{todo.completed}}</td>
+					</tr>
+			{% endfor %}	
+		</table>
+	</div>
+</div>
+{% endblock content %}

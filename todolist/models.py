@@ -12,7 +12,7 @@ class TodoItem(models.Model):
 
 
 	def __str__(self):
-		return self.title	
+		return self.title
 
 class TestModel(models.Model):
 	slug = models.SlugField(null = False, unique = True, blank = True)	
@@ -30,7 +30,7 @@ class TestModel(models.Model):
 	url = models.URLField(max_length = 300)
 	created = models.DateTimeField(auto_now_add = True)
 	updated = models.DateTimeField(auto_now = True)
-	 
+	
 	def __str__(self):
 		return self.title
 
@@ -38,3 +38,33 @@ class TestModel(models.Model):
 		if not self.slug:
 			self.slug = slugify(self.title)
 		return super().save(*args, **kwargs)
+
+class Student(models.Model):
+	name = models.CharField(max_length = 100)
+	MONTHS = [
+	 (1, 'January'),
+	 (2, 'February'),
+	 (3, 'March'),
+	 (4, 'April'),
+	 (5, 'May'),
+	 (6, 'June'),
+	 (7, 'July'),
+	 (8, 'August'),
+	 (9, 'September'),
+	 (10, 'October'),
+	 (11, 'November'),
+	 (12, 'December'),
+	 ]
+	WEEK_DAYS = [
+	(None, 'Day is not selected'),
+	('mo', 'Monday'),
+	('tu', 'Tuesday'),
+	('we', 'Wednesday'),
+	('th', 'Thursday'),
+	('fr', 'Friday'),
+	('sa', 'Saturday'),
+	('su', 'Sunday'),
+	]
+	month = models.PositiveSmallIntegerField(blank = False, choices = MONTHS, default = 1)
+	week_day = models.CharField(max_length = 50, choices = WEEK_DAYS, blank  = True)
+	registed_at = models.DateField(default = timezone.now)
